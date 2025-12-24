@@ -66,18 +66,36 @@
   object-fit: cover !important;
   border-radius: 12px !important;
 }
-/* ================================ HOME BACKDROP ================================ */
+
+/* ================================ HOME BACKDROP ONLY ================================ */
 .homePage {
   background-image: url("https://cdn.cosmoscraft.net/public.php/dav/files/jellyfinassets/Japan_Buildings.jpg");
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
 }
+
 .homePage::before {
   content: "";
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.35);
   pointer-events: none;
+  z-index: 0;
+}
+
+/* ================================ OTHER PAGES — optional light overlay ================================ */
+.showPage::before,
+.moviePage::before,
+.recentlyAddedPage::before,
+.collectionPage::before,
+.genrePage::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.15); /* subtle overlay */
+    pointer-events: none;
+    z-index: 0;
 }
 
 /* ================================ HOME ROWS — SAFE HORIZONTAL ================================ */
@@ -86,7 +104,24 @@
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
   gap: 0.75rem !important;
+
+  /* ================================ HOME ROW SCROLLBARS ================================ */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(255,255,255,0.25) transparent; /* Firefox thumb and track */
 }
+
+/* Chrome, Edge, Safari scrollbars */
+.homePage .itemsContainer::-webkit-scrollbar {
+  height: 8px;
+}
+.homePage .itemsContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.25);
+  border-radius: 4px;
+}
+.homePage .itemsContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .homePage .card {
   flex: 0 0 auto !important;
   width: 160px !important;
@@ -109,42 +144,40 @@
   white-space: normal !important;
 }
 
-/* ================================ 🔥 DESKTOP SEASON GREY FIX (REAL FIX) ================================ */
-
-/* Kill Jellyfin inline collapse styles */
+/* ================================ DESKTOP SEASON GREY FIX ================================ */
 #listChildrenCollapsible,
 #childrenContent {
   max-height: none !important;
   height: auto !important;
   overflow: visible !important;
   display: block !important;
-  contain: layout paint !important; /* forces reflow */
+  contain: layout paint !important;
 }
 
-/* Prevent JS collapsible behavior visually */
 #listChildrenCollapsible {
   padding-bottom: 1rem !important;
 }
 
-/* Episode list container */
 #childrenContent .itemsContainer.vertical-list {
   display: block !important;
   background: transparent !important;
 }
 
-/* Episode cards */
 .seasonPage .listItem {
   background: transparent !important;
   position: relative !important;
-  overflow: hidden !important;
+  overflow: visible !important;
+  contain: layout paint size !important;
 }
 
-/* Remove grey fallback */
 .seasonPage .listItemImageContainer {
   background: transparent !important;
+  position: relative !important;
+}
+.seasonPage .listItemImageContainer::after {
+  display: none !important;
 }
 
-/* Force image render */
 .seasonPage .listItemImageContainer img {
   display: block !important;
   width: 100% !important;
@@ -161,16 +194,14 @@
     rgba(0,0,0,0.8),
     rgba(0,0,0,0.25) 60%,
     transparent
-  );
-  opacity: 0;
+  ) !important;
+  opacity: 1 !important;
   transition: opacity 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0.75rem;
-}
-.seasonPage .listItem:hover .listItemBody {
-  opacity: 1;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+  padding: 0.75rem !important;
+  pointer-events: none !important;
 }
 
 /* ================================
@@ -187,6 +218,27 @@
   margin-top: 1rem !important;
   transition: max-height 0.3s ease !important;
   cursor: pointer;
+  position: relative !important; /* required for gradient overlay */
+}
+
+/* ================================
+   COLLAPSIBLE GRADIENT HINT (TOP-DOWN, TALLER)
+   ================================ */
+#castCollapsible::after,
+#similarCollapsible::after,
+#guestCastCollapsible::after,
+#scenesCollapsible::after,
+.moreFromSeasonSection::after,
+.moreFromMovieSection::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3rem; /* increased height for more visible gradient */
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+    z-index: 5;
 }
 
 /* Expand on hover — adaptive */
@@ -220,7 +272,7 @@
 #guestCastCollapsible .card,
 #scenesCollapsible .card,
 .moreFromSeasonSection .card,
-.moreFromMovieSection .card {
+#moreFromMovieSection .card {
   width: 140px !important;
   min-width: 140px !important;
   font-size: 0.85rem !important;
@@ -232,7 +284,7 @@
 #guestCastCollapsible .itemsContainer::-webkit-scrollbar,
 #scenesCollapsible .itemsContainer::-webkit-scrollbar,
 .moreFromSeasonSection .itemsContainer::-webkit-scrollbar,
-.moreFromMovieSection .itemsContainer::-webkit-scrollbar {
+#moreFromMovieSection .itemsContainer::-webkit-scrollbar {
   height: 8px;
 }
 
@@ -241,7 +293,7 @@
 #guestCastCollapsible .itemsContainer::-webkit-scrollbar-thumb,
 #scenesCollapsible .itemsContainer::-webkit-scrollbar-thumb,
 .moreFromSeasonSection .itemsContainer::-webkit-scrollbar-thumb,
-.moreFromMovieSection .itemsContainer::-webkit-scrollbar-thumb {
+#moreFromMovieSection .itemsContainer::-webkit-scrollbar-thumb {
   background-color: rgba(255,255,255,0.25);
   border-radius: 4px;
 }
@@ -251,7 +303,7 @@
 #guestCastCollapsible .itemsContainer::-webkit-scrollbar-track,
 #scenesCollapsible .itemsContainer::-webkit-scrollbar-track,
 .moreFromSeasonSection .itemsContainer::-webkit-scrollbar-track,
-.moreFromMovieSection .itemsContainer::-webkit-scrollbar-track {
+#moreFromMovieSection .itemsContainer::-webkit-scrollbar-track {
   background: transparent;
 }
 
@@ -261,7 +313,7 @@
 #guestCastCollapsible > *,
 #scenesCollapsible > *,
 .moreFromSeasonSection > *,
-.moreFromMovieSection > * {
+#moreFromMovieSection > * {
   transition: opacity 0.25s ease;
 }
 
@@ -277,46 +329,32 @@
 .itemDetailPage {
   pointer-events: auto !important;
 }
-/* ===================== SEASON EPISODE GREY TILE FIX (DESKTOP ONLY) ===================== */
 
-/* Keep Jellyfin collapsible logic intact */
-#listChildrenCollapsible {
-  overflow: visible !important;
+/* ================================ DESKTOP-SPECIFIC GREY FIX ================================ */
+@media screen and (min-width: 1024px) {
+  /* Force episode container and parent backgrounds to transparent */
+  .seasonPage .listItem,
+  #childrenContent .itemsContainer.vertical-list,
+  .seasonPage .listItemImageContainer {
+    background-color: transparent !important;
+    background: none !important;
+  }
+
+  /* Remove Jellyfin placeholder layer */
+  .seasonPage .listItemImageContainer::after {
+      display: none !important;
+  }
+
+  /* Ensure images fill container completely */
+  .seasonPage .listItemImageContainer img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block !important;
+  }
+
+  #listChildrenCollapsible {
+    overflow: visible !important;
+  }
 }
 
-/* Allow content to expand naturally */
-#childrenContent {
-  overflow: visible !important;
-}
-
-/* This is the ACTUAL grey tile */
-.seasonPage .listItemImageContainer {
-  background-color: transparent !important;
-}
-
-/* Jellyfin placeholder layer */
-.seasonPage .listItemImageContainer::after {
-  display: none !important;
-}
-
-/* Force browser to recalc size AFTER images load */
-.seasonPage .listItem {
-  contain: layout paint size !important;
-}
-
-/* Ensure description layer actually renders */
-.seasonPage .listItemBody {
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.75),
-    rgba(0,0,0,0.15) 60%,
-    transparent
-  ) !important;
-  opacity: 1 !important;
-  pointer-events: none;
-}
-
-/* Prevent Jellyfin from hiding it due to bad calc */
-.seasonPage .listItem:hover .listItemBody {
-  opacity: 1 !important;
-}
