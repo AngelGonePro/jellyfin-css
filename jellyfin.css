@@ -66,124 +66,111 @@
   object-fit: cover !important;
   border-radius: 12px !important;
 }
-
-/* ================================
-   BACKDROP / HOME PAGE OVERLAYS
-   ================================ */
-.backdropContainer::after,
-.homePage::before {
-  pointer-events: none !important;
-}
-
+/* ================================ HOME BACKDROP ================================ */
 .homePage {
-  background-image: url("https://cdn.cosmoscraft.net/public.php/dav/files/jellyfinassets/Japan_Buildings.jpg") !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  position: relative;
+  background-image: url("https://cdn.cosmoscraft.net/public.php/dav/files/jellyfinassets/Japan_Buildings.jpg");
+  background-size: cover;
+  background-position: center;
 }
-
 .homePage::before {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.35);
+  inset: 0;
+  background: rgba(0,0,0,0.35);
   pointer-events: none;
-  z-index: 0;
 }
 
-.homePage > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* ================================
-   RESTORE EPISODE NUMBERS
-   ================================ */
-.indexNumber,
-.mediaInfoItem,
-.secondaryText {
-  display: inline !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-.indexNumber {
-  font-weight: 600;
-  margin-right: 6px;
-}
-
-.secondaryText {
-  color: rgba(255,255,255,0.85) !important;
-}
-
-/* ================================
-   ITEM DETAIL — PIN TOP CONTAINER
-   ================================ */
-.itemDetailPrimaryContainer,
-.itemDetailTopContainer {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  max-height: 92vh !important;
-  overflow: visible !important;
-  padding-top: 1rem !important;
-  box-sizing: border-box !important;
-}
-
-/* Wrap titles & metadata */
-.itemDetailPage .itemName,
-.itemDetailPage .mediaInfoPrimary .listItemBodyText,
-.itemDetailPage .mediaInfoSecondary .listItemBodyTextSecondary {
-  white-space: normal !important;
-  word-break: break-word !important;
-  overflow-wrap: break-word !important;
-  text-align: left !important;
-  font-size: 1.2rem !important;
-}
-
-/* ================================
-   SEASON EPISODE LIST — HORIZONTAL SCROLL
-   ================================ */
-.itemDetailPage .seasonPage .listContainer {
+/* ================================ HOME ROWS — SAFE HORIZONTAL ================================ */
+.homePage .itemsContainer {
   display: flex !important;
-  flex-direction: row !important;
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
-  overflow-y: hidden !important;
-  padding-bottom: 1rem !important;
-  gap: 1rem !important;
-  z-index: 2 !important;
+  gap: 0.75rem !important;
 }
-
-.itemDetailPage .seasonPage .listContainer .listItem {
+.homePage .card {
   flex: 0 0 auto !important;
-  width: 220px !important;
+  width: 160px !important;
+}
+.homePage .scrollButton {
+  display: none !important;
 }
 
-.itemDetailPage .seasonPage .listContainer::-webkit-scrollbar {
-  height: 8px;
-}
-.itemDetailPage .seasonPage .listContainer::-webkit-scrollbar-thumb {
-  background-color: rgba(255,255,255,0.25);
-  border-radius: 4px;
+/* ================================ DETAIL PAGE POSITIONING ================================ */
+.itemDetailPrimaryContainer,
+.itemDetailTopContainer {
+  position: relative !important;
+  margin-top: 1rem !important;
+  padding-top: 1rem !important;
 }
 
-/* ================================
-   DETAIL PAGE SCROLLABLE
-   ================================ */
-.itemDetailPage,
-.detailPageContent,
-.detailPagePrimaryContainer {
-  max-height: 100vh !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  padding-bottom: 2rem !important;
-  box-sizing: border-box !important;
+/* ================================ TITLES ================================ */
+.itemDetailPage .itemName {
+  font-size: 1.3rem !important;
+  white-space: normal !important;
+}
+
+/* ================================ 🔥 DESKTOP SEASON GREY FIX (REAL FIX) ================================ */
+
+/* Kill Jellyfin inline collapse styles */
+#listChildrenCollapsible,
+#childrenContent {
+  max-height: none !important;
+  height: auto !important;
+  overflow: visible !important;
+  display: block !important;
+  contain: layout paint !important; /* forces reflow */
+}
+
+/* Prevent JS collapsible behavior visually */
+#listChildrenCollapsible {
+  padding-bottom: 1rem !important;
+}
+
+/* Episode list container */
+#childrenContent .itemsContainer.vertical-list {
+  display: block !important;
+  background: transparent !important;
+}
+
+/* Episode cards */
+.seasonPage .listItem {
+  background: transparent !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Remove grey fallback */
+.seasonPage .listItemImageContainer {
+  background: transparent !important;
+}
+
+/* Force image render */
+.seasonPage .listItemImageContainer img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* ================================ EPISODE HOVER OVERLAY ================================ */
+.seasonPage .listItem .listItemBody {
+  position: absolute !important;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.8),
+    rgba(0,0,0,0.25) 60%,
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0.75rem;
+}
+.seasonPage .listItem:hover .listItemBody {
+  opacity: 1;
 }
 
 /* ================================
@@ -268,61 +255,68 @@
   background: transparent;
 }
 
-/* ================================
-   HOME SCREEN HORIZONTAL SCROLL
-   ================================ */
-
-/* Disable Jellyfin’s transform animation scroller */
-.homePage .horizontalScroller {
-  transform: none !important;
-  will-change: auto !important;
+/* Fade-in children instead of height clamp */
+#castCollapsible > *,
+#similarCollapsible > *,
+#guestCastCollapsible > *,
+#scenesCollapsible > *,
+.moreFromSeasonSection > *,
+.moreFromMovieSection > * {
+  transition: opacity 0.25s ease;
 }
 
-/* Make home rows horizontal scroll */
-.homePage .horizontalScroller,
-.homePage .itemsContainer {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  scroll-behavior: smooth !important;
-  gap: 0.75rem !important;
-  padding-bottom: 1rem !important;
+/* ================================ HEADER / SETTINGS SAFETY ================================ */
+.skinHeader,
+.headerTop,
+.headerTabs {
+  position: relative !important;
+  z-index: 10 !important;
 }
 
-/* Prevent verticalSection stacking */
-.homePage .verticalSection {
-  display: contents !important;
+/* Prevent invisible overlays blocking clicks */
+.itemDetailPage {
+  pointer-events: auto !important;
+}
+/* ===================== SEASON EPISODE GREY TILE FIX (DESKTOP ONLY) ===================== */
+
+/* Keep Jellyfin collapsible logic intact */
+#listChildrenCollapsible {
+  overflow: visible !important;
 }
 
-/* Cards shouldn’t shrink */
-.homePage .card {
-  flex: 0 0 auto !important;
-  width: 160px !important;
+/* Allow content to expand naturally */
+#childrenContent {
+  overflow: visible !important;
 }
 
-/* Make episode cards wider */
-.homePage .card[data-type="Episode"] {
-  width: 240px !important;
+/* This is the ACTUAL grey tile */
+.seasonPage .listItemImageContainer {
+  background-color: transparent !important;
 }
 
-/* Scrollbar for home screen */
-.homePage .horizontalScroller::-webkit-scrollbar,
-.homePage .itemsContainer::-webkit-scrollbar {
-  height: 8px;
-}
-.homePage .horizontalScroller::-webkit-scrollbar-thumb,
-.homePage .itemsContainer::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.35);
-  border-radius: 4px;
-}
-.homePage .horizontalScroller::-webkit-scrollbar-track,
-.homePage .itemsContainer::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* Hide Jellyfin built-in arrows */
-.homePage .scrollButton {
+/* Jellyfin placeholder layer */
+.seasonPage .listItemImageContainer::after {
   display: none !important;
+}
+
+/* Force browser to recalc size AFTER images load */
+.seasonPage .listItem {
+  contain: layout paint size !important;
+}
+
+/* Ensure description layer actually renders */
+.seasonPage .listItemBody {
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.75),
+    rgba(0,0,0,0.15) 60%,
+    transparent
+  ) !important;
+  opacity: 1 !important;
+  pointer-events: none;
+}
+
+/* Prevent Jellyfin from hiding it due to bad calc */
+.seasonPage .listItem:hover .listItemBody {
+  opacity: 1 !important;
 }
