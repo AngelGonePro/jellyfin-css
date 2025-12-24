@@ -126,10 +126,10 @@
 .itemDetailPrimaryContainer,
 .itemDetailTopContainer {
   position: absolute !important;
-  top: 0 !important;                 /* pin to top */
+  top: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  max-height: 92vh !important;       /* leave space for bottom sections */
+  max-height: 92vh !important;
   overflow: visible !important;
   padding-top: 1rem !important;
   box-sizing: border-box !important;
@@ -168,7 +168,6 @@
 .itemDetailPage .seasonPage .listContainer::-webkit-scrollbar {
   height: 8px;
 }
-
 .itemDetailPage .seasonPage .listContainer::-webkit-scrollbar-thumb {
   background-color: rgba(255,255,255,0.25);
   border-radius: 4px;
@@ -196,7 +195,7 @@
 #scenesCollapsible,
 .moreFromSeasonSection,
 .moreFromMovieSection {
-  max-height: clamp(24px, 5vh, 32px) !important;  /* collapsed height adaptive */
+  max-height: clamp(24px, 5vh, 32px) !important;
   overflow: hidden !important;
   margin-top: 1rem !important;
   transition: max-height 0.3s ease !important;
@@ -214,7 +213,7 @@
   overflow-y: auto !important;
 }
 
-/* Items container inside collapsibles */
+/* Items container inside bottom sections */
 #castCollapsible .itemsContainer,
 #similarCollapsible .itemsContainer,
 #guestCastCollapsible .itemsContainer,
@@ -240,7 +239,7 @@
   font-size: 0.85rem !important;
 }
 
-/* Scrollbars */
+/* Scrollbars for bottom sections */
 #castCollapsible .itemsContainer::-webkit-scrollbar,
 #similarCollapsible .itemsContainer::-webkit-scrollbar,
 #guestCastCollapsible .itemsContainer::-webkit-scrollbar,
@@ -267,4 +266,63 @@
 .moreFromSeasonSection .itemsContainer::-webkit-scrollbar-track,
 .moreFromMovieSection .itemsContainer::-webkit-scrollbar-track {
   background: transparent;
+}
+
+/* ================================
+   HOME SCREEN REAL HORIZONTAL SCROLL
+   ================================ */
+
+/* Disable Jellyfin’s transform animation scroller */
+.homePage .horizontalScroller {
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Make home rows REAL horizontal scroll */
+.homePage .horizontalScroller,
+.homePage .itemsContainer {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-behavior: smooth !important;
+  gap: 0.75rem !important;
+  padding-bottom: 1rem !important;
+}
+
+/* Prevent verticalSection stacking */
+.homePage .verticalSection {
+  display: contents !important;
+}
+
+/* Cards shouldn’t shrink */
+.homePage .card {
+  flex: 0 0 auto !important;
+  width: 160px !important;
+}
+
+/* Make episode cards wider */
+.homePage .card[data-type="Episode"] {
+  width: 240px !important;
+}
+
+/* Scrollbar for home screen */
+.homePage .horizontalScroller::-webkit-scrollbar,
+.homePage .itemsContainer::-webkit-scrollbar {
+  height: 8px;
+}
+.homePage .horizontalScroller::-webkit-scrollbar-thumb,
+.homePage .itemsContainer::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.35);
+  border-radius: 4px;
+}
+.homePage .horizontalScroller::-webkit-scrollbar-track,
+.homePage .itemsContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Hide Jellyfin built-in arrows */
+.homePage .scrollButton {
+  display: none !important;
 }
