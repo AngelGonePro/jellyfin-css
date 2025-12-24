@@ -40,13 +40,11 @@
 
 #loginPage .loginFormContainer,
 #loginPage .loginPageContent {
-  position: relative !important;
   z-index: 1 !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
   align-items: center !important;
-  width: auto !important;
 }
 
 #loginPage .user-selection-container {
@@ -123,10 +121,18 @@
 }
 
 /* ================================
-   TOP CONTAINER (Move up)
+   ITEM DETAIL — PIN TOP CONTAINER
    ================================ */
-.itemDetailPage .itemDetailTopContainer {
-  margin-top: -100px !important; /* Move up so more content is visible */
+.itemDetailPrimaryContainer,
+.itemDetailTopContainer {
+  position: absolute !important;
+  top: 0 !important;                 /* pin to top */
+  left: 0 !important;
+  right: 0 !important;
+  max-height: 92vh !important;       /* leave space for bottom sections */
+  overflow: visible !important;
+  padding-top: 1rem !important;
+  box-sizing: border-box !important;
 }
 
 /* Wrap titles & metadata */
@@ -141,7 +147,7 @@
 }
 
 /* ================================
-   SEASON EPISODE LIST
+   SEASON EPISODE LIST — HORIZONTAL SCROLL
    ================================ */
 .itemDetailPage .seasonPage .listContainer {
   display: flex !important;
@@ -162,6 +168,7 @@
 .itemDetailPage .seasonPage .listContainer::-webkit-scrollbar {
   height: 8px;
 }
+
 .itemDetailPage .seasonPage .listContainer::-webkit-scrollbar-thumb {
   background-color: rgba(255,255,255,0.25);
   border-radius: 4px;
@@ -181,7 +188,7 @@
 }
 
 /* ================================
-   BOTTOM SECTIONS — COLLAPSIBLE ON HOVER
+   BOTTOM SECTIONS — COLLAPSIBLE ON HOVER (ADAPTIVE)
    ================================ */
 #castCollapsible,
 #similarCollapsible,
@@ -189,23 +196,25 @@
 #scenesCollapsible,
 .moreFromSeasonSection,
 .moreFromMovieSection {
-  max-height: 32px !important;  /* collapsed by default */
+  max-height: clamp(24px, 5vh, 32px) !important;  /* collapsed height adaptive */
   overflow: hidden !important;
   margin-top: 1rem !important;
   transition: max-height 0.3s ease !important;
   cursor: pointer;
 }
 
+/* Expand on hover — adaptive */
 #castCollapsible:hover,
 #similarCollapsible:hover,
 #guestCastCollapsible:hover,
 #scenesCollapsible:hover,
 .moreFromSeasonSection:hover,
 .moreFromMovieSection:hover {
-  max-height: 280px !important;  /* expanded on hover */
+  max-height: clamp(200px, 40vh, 340px) !important;
   overflow-y: auto !important;
 }
 
+/* Items container inside collapsibles */
 #castCollapsible .itemsContainer,
 #similarCollapsible .itemsContainer,
 #guestCastCollapsible .itemsContainer,
@@ -219,6 +228,7 @@
   overflow-y: hidden !important;
 }
 
+/* Card sizes inside bottom sections */
 #castCollapsible .card,
 #similarCollapsible .card,
 #guestCastCollapsible .card,
@@ -230,6 +240,7 @@
   font-size: 0.85rem !important;
 }
 
+/* Scrollbars */
 #castCollapsible .itemsContainer::-webkit-scrollbar,
 #similarCollapsible .itemsContainer::-webkit-scrollbar,
 #guestCastCollapsible .itemsContainer::-webkit-scrollbar,
@@ -238,6 +249,7 @@
 .moreFromMovieSection .itemsContainer::-webkit-scrollbar {
   height: 8px;
 }
+
 #castCollapsible .itemsContainer::-webkit-scrollbar-thumb,
 #similarCollapsible .itemsContainer::-webkit-scrollbar-thumb,
 #guestCastCollapsible .itemsContainer::-webkit-scrollbar-thumb,
@@ -247,6 +259,7 @@
   background-color: rgba(255,255,255,0.25);
   border-radius: 4px;
 }
+
 #castCollapsible .itemsContainer::-webkit-scrollbar-track,
 #similarCollapsible .itemsContainer::-webkit-scrollbar-track,
 #guestCastCollapsible .itemsContainer::-webkit-scrollbar-track,
