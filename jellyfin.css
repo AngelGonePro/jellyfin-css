@@ -269,7 +269,7 @@
 }
 
 /* ================================
-   HOME SCREEN REAL HORIZONTAL SCROLL
+   HOME SCREEN HORIZONTAL SCROLL
    ================================ */
 
 /* Disable Jellyfin’s transform animation scroller */
@@ -278,7 +278,7 @@
   will-change: auto !important;
 }
 
-/* Make home rows REAL horizontal scroll */
+/* Make home rows horizontal scroll */
 .homePage .horizontalScroller,
 .homePage .itemsContainer {
   display: flex !important;
