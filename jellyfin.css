@@ -1,0 +1,270 @@
+/* ================================
+   IMPORTS
+   ================================ */
+@import url('https://cdn.jsdelivr.net/gh/prayag17/JellySkin/addons/Gradients/nightSkyGradient.css');
+@import url('https://cdn.jsdelivr.net/npm/jellyskin@latest/dist/main.css');
+@import url('https://cdn.jsdelivr.net/gh/prayag17/JellySkin/addons/Logo.css');
+
+/* ================================
+   LOGIN PAGE
+   ================================ */
+
+/* Login disclaimer */
+.loginDisclaimer {
+  background: rgba(0,0,0,0.85) !important;
+  padding: 14px;
+  border-radius: 10px;
+  text-shadow: 0 2px 6px rgba(0,0,0,.9);
+}
+
+/* Full-screen login background */
+#loginPage {
+  position: relative !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: url("https://cdn.cosmoscraft.net/public.php/dav/files/jellyfinassets/Japan_Buildings.jpg")
+    no-repeat center center fixed !important;
+  background-size: cover !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 0 !important;
+}
+
+/* Dark overlay over login */
+#loginPage::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.35);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Center and size profile cards */
+#loginPage .loginFormContainer,
+#loginPage .loginPageContent {
+  position: relative !important;
+  z-index: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: auto !important;
+}
+
+#loginPage .user-selection-container {
+  display: flex !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+  gap: 2rem !important;
+}
+
+/* Profile card size */
+#loginPage .user-selection-container .userCard {
+  width: 200px !important;
+  height: 200px !important;
+  font-size: 1.2rem !important;
+}
+
+#loginPage .user-selection-container .userCard img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
+}
+
+/* ================================
+   BACKDROP / HOME PAGE OVERLAYS
+   ================================ */
+.backdropContainer::after,
+.homePage::before {
+  pointer-events: none !important;
+}
+
+/* Ensure content is above overlays */
+.homePage > *,
+.itemDetailPage,
+.detailPageContent,
+.page {
+  position: relative;
+  z-index: 1;
+}
+
+/* SERIES / MOVIE BACKDROP OVERLAY */
+.backdropContainer::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* HOME PAGE OVERLAY */
+.homePage {
+  background-image: url("https://cdn.cosmoscraft.net/public.php/dav/files/jellyfinassets/Japan_Buildings.jpg") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  position: relative;
+}
+
+.homePage::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: none; /* allow clicks */
+  z-index: 0;
+}
+
+.homePage > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ================================
+   RESTORE EPISODE NUMBERS
+   ================================ */
+.indexNumber,
+.mediaInfoItem,
+.secondaryText {
+  display: inline !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.indexNumber {
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.secondaryText {
+  color: rgba(255,255,255,0.85) !important;
+}
+
+/* ================================
+   SEASON EPISODE LIST - HORIZONTAL SCROLL
+   ================================ */
+.itemDetailPage .seasonPage .listContainer {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;        /* Keep in one line */
+  overflow-x: auto !important;         /* Horizontal scroll */
+  overflow-y: hidden !important;
+  padding-bottom: 1rem !important;
+  gap: 1rem !important;
+}
+
+/* Each episode card has fixed width for scroll */
+.itemDetailPage .seasonPage .listContainer .listItem {
+  flex: 0 0 auto !important;           /* Don’t shrink or grow */
+  width: 220px !important;             /* Adjust as needed */
+}
+
+/* Scrollbar style */
+.itemDetailPage .seasonPage .listContainer::-webkit-scrollbar {
+  height: 8px;
+}
+.itemDetailPage .seasonPage .listContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.25);
+  border-radius: 4px;
+}
+.itemDetailPage .seasonPage .listContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ================================
+   DETAIL PAGE SCROLLABLE
+   ================================ */
+.itemDetailPage,
+.detailPageContent,
+.detailPagePrimaryContainer {
+  max-height: 100vh !important; /* limit to viewport height */
+  overflow-y: auto !important;  /* vertical scroll if needed */
+  overflow-x: hidden !important;
+  padding-bottom: 2rem !important; /* optional spacing at bottom */
+  box-sizing: border-box !important;
+}
+
+/* Wrap titles and metadata properly */
+.itemDetailPage .itemName,
+.itemDetailPage .mediaInfoPrimary .listItemBodyText,
+.itemDetailPage .mediaInfoSecondary .listItemBodyTextSecondary {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  text-align: left !important;
+  font-size: 1.25rem !important;  /* increased from 1rem for bigger titles */
+}
+
+/* ================================
+   BOTTOM SECTIONS (CAST & CREW / MORE LIKE THIS) - COLLAPSIBLE
+   ================================ */
+#castCollapsible,
+#similarCollapsible {
+    max-height: 100px !important;    /* slightly bigger collapsed height */
+    overflow: hidden !important;
+    transition: max-height 0.3s ease;
+    position: relative;
+}
+
+/* Fade at bottom hint */
+#castCollapsible::after,
+#similarCollapsible::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;   /* slightly bigger fade */
+    background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.5));
+    pointer-events: none;
+}
+
+/* Expand on hover */
+#castCollapsible:hover,
+#similarCollapsible:hover {
+    max-height: 320px !important;   /* slightly bigger expanded height */
+}
+
+/* Items container remains horizontally scrollable */
+#castCollapsible .itemsContainer,
+#similarCollapsible .itemsContainer {
+    display: flex !important;
+    flex-wrap: nowrap !important;  /* horizontal scroll inside */
+    gap: 0.75rem !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+}
+
+/* Cards remain fixed size */
+#castCollapsible .card,
+#similarCollapsible .card {
+    width: 140px !important;
+    min-width: 140px !important;
+    font-size: 0.85rem !important;
+}
+
+/* Scrollbar for bottom sections */
+#castCollapsible .itemsContainer::-webkit-scrollbar,
+#similarCollapsible .itemsContainer::-webkit-scrollbar {
+    height: 8px;
+}
+#castCollapsible .itemsContainer::-webkit-scrollbar-thumb,
+#similarCollapsible .itemsContainer::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.25);
+    border-radius: 4px;
+}
+#castCollapsible .itemsContainer::-webkit-scrollbar-track,
+#similarCollapsible .itemsContainer::-webkit-scrollbar-track {
+    background: transparent;
+}
