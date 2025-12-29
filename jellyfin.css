@@ -358,3 +358,24 @@
   }
 }
 
+/* Force browser to recalc size AFTER images load */
+.seasonPage .listItem {
+  contain: layout paint size !important;
+}
+
+/* Ensure description layer actually renders */
+.seasonPage .listItemBody {
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.75),
+    rgba(0,0,0,0.15) 60%,
+    transparent
+  ) !important;
+  opacity: 1 !important;
+  pointer-events: none;
+}
+
+/* Prevent Jellyfin from hiding it due to bad calc */
+.seasonPage .listItem:hover .listItemBody {
+  opacity: 1 !important;
+}
